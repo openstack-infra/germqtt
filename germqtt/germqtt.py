@@ -84,6 +84,9 @@ def get_options():
 def get_topic(base_topic, event):
     project = event.get('project', '')
     event_type = event.get('type', '')
+    if not project:
+        if 'change' in event:
+            project = event['change'].get('project', '')
     pieces = [base_topic, project, event_type]
     topic = "/".join(pieces)
     return topic
