@@ -87,6 +87,8 @@ def get_topic(base_topic, event):
     if not project:
         if 'change' in event:
             project = event['change'].get('project', '')
+        elif 'refUpdate' in event:
+            project = event['refUpdate'].get('project', '')
     pieces = [base_topic, project, event_type]
     topic = "/".join(pieces)
     return topic
