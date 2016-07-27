@@ -116,10 +116,26 @@ def _main(args, config):
     else:
         keepalive = 60
 
+    # Configure auth
+    auth = None
+    if config.has_option('mqtt', 'username'):
+        mqtt_username = config.get('mqtt', 'username')
+    else:
+        mqtt_username = None
+    if config.has_option('mqtt', 'password'):
+        mqtt_password = config.get('mqtt', 'password')
+    else:
+        mqtt_password = None
+    if mqtt_username:
+        auth = {'username': mqtt_username}
+        if mqtt_password:
+            auth['password'] = mqtt_password
+
     mqttqueue = PushMQTT(
         config.get('mqtt', 'hostname'),
         port=mqtt_port,
-        keepalive=keepalive)
+        keepalive=keepalive,
+        auth=auth)
 
     base_topic = config.get('mqtt', 'topic')
     while True:

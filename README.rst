@@ -51,6 +51,10 @@ can set:
               if your broker uses a non-default port.
  * **keepalive** - Used to set the keepalive time for connections to the MQTT
                    broker. By default this is set to 60 seconds.
+ * **username** - Used to set the auth username to connect to the MQTT broker
+                  with.
+ * **password** - Used to set the auth password to connect to the MQTT broker
+                  with. A username must be set for this option to be used.
 
 Other Settings
 --------------
