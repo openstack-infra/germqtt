@@ -11,6 +11,21 @@ on the topic: base_topic/foo/commented-added
 By default germqtt is setup as a daemon however if you need to run it
 interactively you can use the *--foreground* option to do this.
 
+MQTT Topics
+===========
+germqtt will push gerrit events to topics broken by project and event type.
+The formula used is::
+
+  <base topic>/<project>/<event type>
+
+For example, if gerrit emits a *comment-added* event for the *openstack/nova*
+project germqtt will push that event to the topic::
+
+  gerrit/openstack/nova/comment-added
+
+assuming the base topic is configured to be gerrit. For more information on
+topics in MQTT refer to: https://mosquitto.org/man/mqtt-7.html
+
 Configuration
 =============
 There are a few required pieces of information to make germqtt work properly.
