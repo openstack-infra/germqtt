@@ -15,14 +15,14 @@
 #    under the License.
 
 import argparse
-import ConfigParser
-import logging
 import json
+import logging
 import os
 
 import daemon
 import gerritlib.gerrit
 import paho.mqtt.publish as publish
+from six.moves import configparser as ConfigParser
 
 try:
     import daemon.pidlockfile
@@ -35,6 +35,7 @@ except Exception:
 
 
 log = logging.getLogger('germqtt')
+
 
 class GerritStream(object):
 
@@ -80,6 +81,7 @@ def get_options():
                         help="Run in foreground")
     parser.add_argument('conffile', nargs=1, help="Configuration file")
     return parser.parse_args()
+
 
 def get_topic(base_topic, event):
     project = event.get('project', '')
