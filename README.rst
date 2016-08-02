@@ -70,6 +70,9 @@ can set:
                   with.
  * **password** - Used to set the auth password to connect to the MQTT broker
                   with. A username must be set for this option to be used.
+ * **qos** - Used to set the QOS level for the messages published by germqtt.
+             For more information on the different QOS levels refer to:
+             https://mosquitto.org/man/mqtt-7.html
 
 Other Settings
 --------------

@@ -50,7 +50,7 @@ class GerritStream(object):
 
 class PushMQTT(object):
     def __init__(self, hostname, port=1883, client_id=None,
-                 keepalive=60, will=None, auth=None, tls=None):
+                 keepalive=60, will=None, auth=None, tls=None, qos=0):
         self.hostname = hostname
         self.port = port
         self.client_id = client_id
@@ -58,18 +58,19 @@ class PushMQTT(object):
         self.will = will
         self.auth = auth
         self.tls = tls
+        self.qos = qos
 
     def publish_single(self, topic, msg):
         publish.single(topic, msg, hostname=self.hostname,
                        port=self.port, client_id=self.client_id,
                        keepalive=self.keepalive, will=self.will,
-                       auth=self.auth, tls=self.tls)
+                       auth=self.auth, tls=self.tls, qos=self.qos)
 
     def publish_multiple(self, topic, msg):
         publish.multiple(topic, msg, hostname=self.hostname,
                          port=self.port, client_id=self.client_id,
                          keepalive=self.keepalive, will=self.will,
-                         auth=self.auth, tls=self.tls)
+                         auth=self.auth, tls=self.tls, qos=self.qos)
 
 
 def get_options():
@@ -131,11 +132,18 @@ def _main(args, config):
         if mqtt_password:
             auth['password'] = mqtt_password
 
+    # QOS setting
+    if config.has_option('mqtt', 'qos'):
+        mqtt_qos = config.getint('mqtt', 'qos')
+    else:
+        mqtt_qos = 0
+
     mqttqueue = PushMQTT(
         config.get('mqtt', 'hostname'),
         port=mqtt_port,
         keepalive=keepalive,
-        auth=auth)
+        auth=auth,
+        qos=mqtt_qos)
 
     base_topic = config.get('mqtt', 'topic')
     while True:
